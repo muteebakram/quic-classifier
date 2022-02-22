@@ -7,10 +7,13 @@ Download and install wireshark and capture packets and save as pcap file.
 or
 
 Capture packets using `tcpdump`
+
 ```sh
 tcpdump -s 0 -i <interface-name> -w <file-name.pcap>
 ```
+
 Example:
+
 ```sh
 tcpdump -s 0 -i en0 -w initial-capture.pcap
 ```
@@ -41,6 +44,6 @@ python3 merge_columns.py
 
 ## 5. Run the ML Models
 
-Run all the cells.
+- Run all the cells from `quic-classifier.ipynb`
 
-`quic-classifier.ipynb`
+- Directly see the results by opening HTML file `quic-classifier`
