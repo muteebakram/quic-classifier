@@ -3,20 +3,72 @@
 # After : srcport,dstport,length,checksum
 
 import csv
+import argparse
 import pandas as pd
 
-INPUT_FILE = "dataset1.csv"
-OUTPUT_FILE = "output-dataset1.csv"
 
 quic_counter = 0
 total_packets = 0
+
+parser = argparse.ArgumentParser(
+    description="Mege the common columns ie srcport,dstport,length,checksum"
+)
+parser.add_argument(
+    "-i", "--input-file", help="Input csv file of pcap file.", required=False
+)
+parser.add_argument(
+    "-o", "--output-file", help="Merged columns output file.", required=False
+)
+args = vars(parser.parse_args())
+
+if args["input_file"]:
+    INPUT_FILE = args["input_file"]
+else:
+    INPUT_FILE = "dataset5.csv"
+
+if args["output_file"]:
+    OUTPUT_FILE = args["output_file"]
+else:
+    OUTPUT_FILE = "output-dataset.csv"
+
 
 with open(INPUT_FILE) as f, open(OUTPUT_FILE, "w") as g:
     reader = csv.reader(f)
     writer = csv.writer(g)
 
     headers = next(reader, None)  # skip the headers
-    writer.writerow(headers[:-4])
+    # writer.writerow(headers[:-4])
+    writer.writerow(
+        [
+            "frame.encap_type",
+            "frame.time_epoch",
+            "frame.len",
+            "frame.cap_len",
+            "eth.src",
+            "eth.dst",
+            "ip.version",
+            "ip.hdr_len",
+            "ip.tos",
+            "ip.id",
+            "ip.flags",
+            "ip.flags.rb",
+            "ip.flags.df",
+            "ip.flags.mf",
+            "ip.frag_offset",
+            "ip.ttl",
+            "ip.proto",
+            "ip.checksum",
+            "ip.src",
+            "ip.dst",
+            "ip.len",
+            "ip.dsfield",
+            "srcport",
+            "dstport",
+            "length",
+            "checksum",
+            "quic",
+        ]
+    )
     for row in reader:
         # print("Merging srcport...")
         if not row[22] and not row[26]:
@@ -88,20 +140,20 @@ with open(INPUT_FILE) as f, open(OUTPUT_FILE, "w") as g:
         writer.writerow(new_row)
 
 
-print("\nRenaming columns...")
-# Load data from a CSV file into a Pandas df:
-df = pd.read_csv(OUTPUT_FILE)
+# print("\nRenaming columns...")
+# # Load data from a CSV file into a Pandas df:
+# df = pd.read_csv(OUTPUT_FILE)
 
-# rename column names from the CSV file
-df.columns.values[22] = "srcport"
-df.columns.values[23] = "dstport"
-df.columns.values[24] = "length"
-df.columns.values[25] = "checksum"
-df.columns.values[26] = "quic"
+# # rename column names from the CSV file
+# df.columns.values[22] = "srcport"
+# df.columns.values[23] = "dstport"
+# df.columns.values[24] = "length"
+# df.columns.values[25] = "checksum"
+# df.columns.values[26] = "quic"
 
 
-df.to_csv(OUTPUT_FILE, index=False)
-print("Updated column names: ", df.columns)
+# df.to_csv(OUTPUT_FILE, index=False)
+# print("Updated column names: ", df.columns)
 
 
 print(

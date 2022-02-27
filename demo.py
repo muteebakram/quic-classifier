@@ -2,7 +2,7 @@ import os
 import joblib
 import pandas as pd
 
-PCAP_FILE_PATH = "Lab3-QUIC Streams.pcapng"
+PCAP_FILE_PATH = "../demo-muteeb.pcap"
 OUTPUT_FILE_PATH = "demo-output.csv"
 DATASET_FILE_PATH = "demo-dataset.csv"
 
@@ -42,6 +42,13 @@ def preprocess(ds):
     return ds, targets
 
 
+def is_quic(packet):
+    if packet:
+        return "quic"
+    else:
+        return "non-quic"
+
+
 if __name__ == "__main__":
 
     pcap_to_csv_cmd = "tshark -r '{0}' -T fields -E header=y -E separator=, -E occurrence=f  -e frame.encap_type \
@@ -57,7 +64,11 @@ if __name__ == "__main__":
     os.system(pcap_to_csv_cmd)
     print("Generated CSV file from {0}...\n".format(PCAP_FILE_PATH))
 
-    os.system("python merge_columns.py")
+    os.system(
+        "python merge_columns.py -i {0} -o {1} > /dev/null".format(
+            OUTPUT_FILE_PATH, DATASET_FILE_PATH
+        )
+    )
     print("Merged common columns in dataset...\n")
 
     dataset = pd.read_csv(DATASET_FILE_PATH)
@@ -78,7 +89,7 @@ if __name__ == "__main__":
     logistic_regression_model = joblib.load(logistic_regression_path)
     random_forest_classifier_model = joblib.load(random_forest_classifier_path)
 
-    print("Results...\n")
+    print("Acuracy...\n")
     print(
         "{0:<35} {1}%".format(
             "Decision_Tree_Classifier_Model",
@@ -109,3 +120,37 @@ if __name__ == "__main__":
             round(random_forest_classifier_model.score(X_test, Y_test) * 100, 2),
         )
     )
+
+    print("\nPrediction...\n")
+    decision_tree_classifier_prediction = decision_tree_classifier_model.predict(X_test)
+    gradient_boosting_classifier_prediction = gradient_boosting_classifier_model.predict(
+        X_test
+    )
+    k_neighbors_classifier_prediction = k_neighbors_classifier_model.predict(X_test)
+    logistic_regression_prediction = logistic_regression_model.predict(X_test)
+    random_forest_classifier_prediction = random_forest_classifier_model.predict(X_test)
+
+    print(
+        "{0:<28} {1:<28} {2:<28} {3:<28} {4:<28} {5:<28} {6:<28}".format(
+            "Packet Time",
+            "Decision_Tree_Classifier",
+            "Gradient_Boosting_Classifier",
+            "K_Neighbors_Classifier",
+            "Logistic_Regression",
+            "Random_Forest_Classifier",
+            "Actual Packet Protocol",
+        )
+    )
+
+    for index, test in enumerate(X_test.values):
+        print(
+            "{0:<28} {1:<28} {2:<28} {3:<28} {4:<28} {5:<28} {6:<28}".format(
+                "{0}-{1}".format(index, test[1]),
+                is_quic(decision_tree_classifier_prediction[index]),
+                is_quic(gradient_boosting_classifier_prediction[index]),
+                is_quic(k_neighbors_classifier_prediction[index]),
+                is_quic(logistic_regression_prediction[index]),
+                is_quic(random_forest_classifier_prediction[index]),
+                is_quic(Y_test[index]),
+            )
+        )

@@ -22,7 +22,7 @@ cd quic-classifier && python3 -m virtualenv quic
 source quic/bin/activate
 ```
 
-3. Install the python pip packaages.
+3. Install the python pip packages.
 
 ```
 pip install -r requirements.txt
