@@ -2,9 +2,9 @@ import os
 import joblib
 import pandas as pd
 
-PCAP_FILE_PATH = "../demo-muteeb.pcap"
-OUTPUT_FILE_PATH = "demo-output.csv"
-DATASET_FILE_PATH = "demo-dataset.csv"
+PCAP_FILE_PATH = "example.pcap"
+OUTPUT_FILE_PATH = "initial-dataset.csv"
+DATASET_FILE_PATH = "merged-dataset.csv"
 
 
 def preprocess(ds):

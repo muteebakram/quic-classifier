@@ -52,7 +52,7 @@ tcpdump -s 0 -i <interface-name> -w <file-name.pcap>
 Example:
 
 ```sh
-tcpdump -s 0 -i en0 -w initial-capture.pcap
+tcpdump -s 0 -i en0 -w example.pcap
 ```
 
 [tcpdump to pcap](https://linuxexplore.com/2012/06/07/use-tcpdump-to-capture-in-a-pcap-file-wireshark-dump/)
@@ -62,7 +62,7 @@ tcpdump -s 0 -i en0 -w initial-capture.pcap
 There are many ways to convert pcap to csv. But we need only specific feilds and this is easiest way. Command to generate CSV from pcap file.
 
 ```sh
-tshark -r initial-capture.pcap  -T fields -E header=y -E separator=, -E occurrence=f  -e frame.encap_type -e frame.time_epoch -e frame.len -e frame.cap_len -e eth.src -e eth.dst -e ip.version -e ip.hdr_len -e ip.tos -e ip.id -e ip.flags -e ip.flags.rb -e ip.flags.df -e ip.flags.mf -e ip.frag_offset -e ip.ttl -e ip.proto -e ip.checksum -e ip.src -e ip.dst -e ip.len -e ip.dsfield -e tcp.srcport -e tcp.dstport -e tcp.hdr_len -e tcp.checksum -e udp.srcport -e udp.dstport -e udp.length -e udp.checksum -e quic > initial.csv
+tshark -r example.pcap  -T fields -E header=y -E separator=, -E occurrence=f  -e frame.encap_type -e frame.time_epoch -e frame.len -e frame.cap_len -e eth.src -e eth.dst -e ip.version -e ip.hdr_len -e ip.tos -e ip.id -e ip.flags -e ip.flags.rb -e ip.flags.df -e ip.flags.mf -e ip.frag_offset -e ip.ttl -e ip.proto -e ip.checksum -e ip.src -e ip.dst -e ip.len -e ip.dsfield -e tcp.srcport -e tcp.dstport -e tcp.hdr_len -e tcp.checksum -e udp.srcport -e udp.dstport -e udp.length -e udp.checksum -e quic > initial-dataset.csv
 ```
 
 ## 3. Merge all the CSV into final CSV
@@ -80,7 +80,12 @@ As we know QUIC uses UDP protocol. Therefore, we have taken common feilds from T
 **After :** srcport,dstport,length,checksum
 
 ```
-python3 merge_columns.py
+python3 merge_columns.py [-h] [-i INPUT_FILE] [-o OUTPUT_FILE]
+```
+
+Example:
+```
+python3 merge_columns.py -i initial-dataset.csv -o merged-dataset.csv
 ```
 
 ## 5. Run the ML Models
