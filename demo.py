@@ -50,6 +50,7 @@ def is_quic(packet):
 
 
 if __name__ == "__main__":
+    print("Reading PCAP data...\n")
 
     pcap_to_csv_cmd = "tshark -r '{0}' -T fields -E header=y -E separator=, -E occurrence=f  -e frame.encap_type \
             -e frame.time_epoch -e frame.len -e frame.cap_len -e eth.src -e eth.dst -e ip.version \
@@ -91,7 +92,7 @@ if __name__ == "__main__":
     k_neighbors_classifier_model = joblib.load(k_neighbors_classifier_path)
     random_forest_classifier_model = joblib.load(random_forest_classifier_path)
 
-    print("Acuracy...\n")
+    print("Accuracy...\n")
     print(
         "{0:<35} {1}%".format(
             "Logistic_Regression_Model",
