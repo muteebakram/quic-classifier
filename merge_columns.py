@@ -4,7 +4,6 @@
 
 import csv
 import argparse
-import pandas as pd
 
 
 quic_counter = 0
@@ -138,23 +137,6 @@ with open(INPUT_FILE) as f, open(OUTPUT_FILE, "w") as g:
 
         total_packets += 1
         writer.writerow(new_row)
-
-
-# print("\nRenaming columns...")
-# # Load data from a CSV file into a Pandas df:
-# df = pd.read_csv(OUTPUT_FILE)
-
-# # rename column names from the CSV file
-# df.columns.values[22] = "srcport"
-# df.columns.values[23] = "dstport"
-# df.columns.values[24] = "length"
-# df.columns.values[25] = "checksum"
-# df.columns.values[26] = "quic"
-
-
-# df.to_csv(OUTPUT_FILE, index=False)
-# print("Updated column names: ", df.columns)
-
 
 print(
     "\nQuic packets: {0}, Non-Quic packets: {1}, Total: {2}, Percentage: {3}%".format(

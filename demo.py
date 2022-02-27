@@ -75,25 +75,33 @@ if __name__ == "__main__":
     X_test, Y_test = preprocess(dataset)
     print("Dataset preprocess completed...\n")
 
-    decision_tree_classifier_path = os.path.join("models", "DecisionTreeClassifier")
+    logistic_regression_path = os.path.join("models", "LogisticRegression")
+    naive_bayes_path = os.path.join("models", "NaiveBayes")
     gradient_boosting_classifier_path = os.path.join(
         "models", "GradientBoostingClassifier"
     )
+    decision_tree_classifier_path = os.path.join("models", "DecisionTreeClassifier")
     k_neighbors_classifier_path = os.path.join("models", "KNeighborsClassifier")
-    logistic_regression_path = os.path.join("models", "LogisticRegression")
     random_forest_classifier_path = os.path.join("models", "RandomForestClassifier")
 
-    decision_tree_classifier_model = joblib.load(decision_tree_classifier_path)
-    gradient_boosting_classifier_model = joblib.load(gradient_boosting_classifier_path)
-    k_neighbors_classifier_model = joblib.load(k_neighbors_classifier_path)
     logistic_regression_model = joblib.load(logistic_regression_path)
+    naive_bayes_model = joblib.load(naive_bayes_path)
+    gradient_boosting_classifier_model = joblib.load(gradient_boosting_classifier_path)
+    decision_tree_classifier_model = joblib.load(decision_tree_classifier_path)
+    k_neighbors_classifier_model = joblib.load(k_neighbors_classifier_path)
     random_forest_classifier_model = joblib.load(random_forest_classifier_path)
 
     print("Acuracy...\n")
     print(
         "{0:<35} {1}%".format(
-            "Decision_Tree_Classifier_Model",
-            round(decision_tree_classifier_model.score(X_test, Y_test) * 100, 2),
+            "Logistic_Regression_Model",
+            round(logistic_regression_model.score(X_test, Y_test) * 100, 2),
+        )
+    )
+    print(
+        "{0:<35} {1}%".format(
+            "Naive_Bayes",
+            round(naive_bayes_model.score(X_test, Y_test) * 100, 2),
         )
     )
     print(
@@ -104,16 +112,18 @@ if __name__ == "__main__":
     )
     print(
         "{0:<35} {1}%".format(
+            "Decision_Tree_Classifier_Model",
+            round(decision_tree_classifier_model.score(X_test, Y_test) * 100, 2),
+        )
+    )
+
+    print(
+        "{0:<35} {1}%".format(
             "K_Neighbors_Classifier_Model",
             round(k_neighbors_classifier_model.score(X_test, Y_test) * 100, 2),
         )
     )
-    print(
-        "{0:<35} {1}%".format(
-            "Logistic_Regression_Model",
-            round(logistic_regression_model.score(X_test, Y_test) * 100, 2),
-        )
-    )
+
     print(
         "{0:<35} {1}%".format(
             "Random_Forest_Classifier_Model",
@@ -122,21 +132,23 @@ if __name__ == "__main__":
     )
 
     print("\nPrediction...\n")
-    decision_tree_classifier_prediction = decision_tree_classifier_model.predict(X_test)
+    logistic_regression_prediction = logistic_regression_model.predict(X_test)
+    naive_bayes_prediction = naive_bayes_model.predict(X_test)
     gradient_boosting_classifier_prediction = gradient_boosting_classifier_model.predict(
         X_test
     )
+    decision_tree_classifier_prediction = decision_tree_classifier_model.predict(X_test)
     k_neighbors_classifier_prediction = k_neighbors_classifier_model.predict(X_test)
-    logistic_regression_prediction = logistic_regression_model.predict(X_test)
     random_forest_classifier_prediction = random_forest_classifier_model.predict(X_test)
 
     print(
-        "{0:<28} {1:<28} {2:<28} {3:<28} {4:<28} {5:<28} {6:<28}".format(
+        "{0:<28} {1:<28} {2:<28} {3:<28} {4:<28} {5:<28} {6:<28} {7:<28}".format(
             "Packet Time",
-            "Decision_Tree_Classifier",
-            "Gradient_Boosting_Classifier",
-            "K_Neighbors_Classifier",
             "Logistic_Regression",
+            "Naive_Bayes",
+            "Gradient_Boosting_Classifier",
+            "Decision_Tree_Classifier",
+            "K_Neighbors_Classifier",
             "Random_Forest_Classifier",
             "Actual Packet Protocol",
         )
@@ -144,12 +156,13 @@ if __name__ == "__main__":
 
     for index, test in enumerate(X_test.values):
         print(
-            "{0:<28} {1:<28} {2:<28} {3:<28} {4:<28} {5:<28} {6:<28}".format(
+            "{0:<28} {1:<28} {2:<28} {3:<28} {4:<28} {5:<28} {6:<28} {7:<28}".format(
                 "{0}-{1}".format(index, test[1]),
-                is_quic(decision_tree_classifier_prediction[index]),
-                is_quic(gradient_boosting_classifier_prediction[index]),
-                is_quic(k_neighbors_classifier_prediction[index]),
                 is_quic(logistic_regression_prediction[index]),
+                is_quic(naive_bayes_prediction[index]),
+                is_quic(gradient_boosting_classifier_prediction[index]),
+                is_quic(decision_tree_classifier_prediction[index]),
+                is_quic(k_neighbors_classifier_prediction[index]),
                 is_quic(random_forest_classifier_prediction[index]),
                 is_quic(Y_test[index]),
             )
