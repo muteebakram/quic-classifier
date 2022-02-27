@@ -5,8 +5,8 @@
 import csv
 import pandas as pd
 
-INPUT_FILE = "dataset.csv"
-OUTPUT_FILE = "output-dataset.csv"
+INPUT_FILE = "dataset1.csv"
+OUTPUT_FILE = "output-dataset1.csv"
 
 quic_counter = 0
 total_packets = 0

@@ -32,6 +32,32 @@ tshark -r initial-capture.pcap -T fields -E header=y -E separator=, -E occurrenc
 
 ## [TODO] Collect all the csv and shuffle the rows.
 
+## Development Setup
+
+0. Clone the code.
+
+```
+git clone https://github.com/muteebakram/quic-classifier.git
+```
+
+1. Create python virtual environment.
+
+```
+cd quic-classifier && python3 -m virtualenv quic
+```
+
+2. Activate the environment.
+
+```
+source quic/bin/activate
+```
+
+3. Install the python pip packaages.
+
+```
+pip install -r requirements.txt
+```
+
 ## 4. Merge the respective columns from tcp & udp.
 
 As we know QUIC uses UDP protocol. Therefore, we have taken common feilds from TCP and UDP protocol ie, srcport,dstport,length,checksum. Run the below command to merge the columns and rename the column names.
