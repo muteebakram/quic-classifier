@@ -1,5 +1,38 @@
 # Quic Classifier of QUIC and Non-QUIC packets
 
+## [Datset Link](https://drive.google.com/drive/u/1/folders/1ShLIMt0m0-cjEuRZ-TBn9hh1JwZx_LhG)
+
+## Installation
+
+0. Clone the code.
+
+```
+git clone https://github.com/muteebakram/quic-classifier.git
+```
+
+1. Create python virtual environment.
+
+```
+cd quic-classifier && python3 -m virtualenv quic
+```
+
+2. Activate the environment.
+
+```
+source quic/bin/activate
+```
+
+3. Install the python pip packaages.
+
+```
+pip install -r requirements.txt
+```
+
+4. Run the quic-classifier.ipynb or demo.py
+```
+python3 demo.py
+```
+
 ## 1. Capture packets
 
 Download and install wireshark and capture packets and save as pcap file.
@@ -28,35 +61,7 @@ There are many ways to convert pcap to csv. But we need only specific feilds and
 tshark -r initial-capture.pcap  -T fields -E header=y -E separator=, -E occurrence=f  -e frame.encap_type -e frame.time_epoch -e frame.len -e frame.cap_len -e eth.src -e eth.dst -e ip.version -e ip.hdr_len -e ip.tos -e ip.id -e ip.flags -e ip.flags.rb -e ip.flags.df -e ip.flags.mf -e ip.frag_offset -e ip.ttl -e ip.proto -e ip.checksum -e ip.src -e ip.dst -e ip.len -e ip.dsfield -e tcp.srcport -e tcp.dstport -e tcp.hdr_len -e tcp.checksum -e udp.srcport -e udp.dstport -e udp.length -e udp.checksum -e quic > initial.csv
 ```
 
-tshark -r initial-capture.pcap -T fields -E header=y -E separator=, -E occurrence=f -e frame.encap_type -e frame.time_epoch -e frame.len -e frame.cap_len -e eth.src -e eth.dst -e ip.version -e ip.hdr_len -e ip.tos -e ip.id -e ip.flags -e ip.flags.rb -e ip.flags.df -e ip.flags.mf -e ip.frag_offset -e ip.ttl -e ip.proto -e ip.checksum -e ip.src -e ip.dst -e ip.len -e ip.dsfield -e tcp.srcport -e tcp.dstport -e tcp.hdr_len -e tcp.checksum -e udp.srcport -e udp.dstport -e udp.length -e udp.checksum -e quic > data.csv
-
 ## [TODO] Collect all the csv and shuffle the rows.
-
-## Development Setup
-
-0. Clone the code.
-
-```
-git clone https://github.com/muteebakram/quic-classifier.git
-```
-
-1. Create python virtual environment.
-
-```
-cd quic-classifier && python3 -m virtualenv quic
-```
-
-2. Activate the environment.
-
-```
-source quic/bin/activate
-```
-
-3. Install the python pip packaages.
-
-```
-pip install -r requirements.txt
-```
 
 ## 4. Merge the respective columns from tcp & udp.
 
