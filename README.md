@@ -1,4 +1,4 @@
-# Quic Classifier of QUIC and Non-QUIC packets
+# Quic Packet Classifier
 
 ## [Datset Link](https://drive.google.com/drive/u/1/folders/1ShLIMt0m0-cjEuRZ-TBn9hh1JwZx_LhG)
 
