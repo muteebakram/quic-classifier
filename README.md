@@ -13,7 +13,7 @@ git clone https://github.com/muteebakram/quic-classifier.git
 1. Create python virtual environment.
 
 ```
-cd quic-classifier && python3 -m virtualenv quic
+cd quic-classifier && python3 -m venv quic
 ```
 
 2. Activate the environment.
